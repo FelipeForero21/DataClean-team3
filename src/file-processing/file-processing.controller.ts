@@ -15,7 +15,7 @@ export class FileProcessingController {
   }
 
   @Post('process')
-  processFile(@Body() processFileDto: ProcessFileDto) {
-    return this.fileProcessingService.processFile(processFileDto);
+  processFile(@Body() processFileDto: ProcessFileDto, @Body('data') data: any[]) {
+    return this.fileProcessingService.processFile(processFileDto, data);
   }
 }
