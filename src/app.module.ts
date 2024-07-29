@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FileProcessingModule } from './file-processing/file-processing.module';
+import { TestController } from './api-key/api-key.controller';
+import { TestService } from './api-key/api-key.service';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { FileProcessingModule } from './file-processing/file-processing.module';
     }),
     FileProcessingModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TestController],
+  providers: [AppService, TestService],
 })
 export class AppModule {}
