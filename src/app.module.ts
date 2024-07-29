@@ -1,20 +1,11 @@
 import { Module } from '@nestjs/common';
-<<<<<<< HEAD
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UploadModule } from './upload/upload.module';
-import { DatabaseModule } from './database/database.module';
-import { PersonModule } from './person/person.module';
-import { FileModule } from './file/file.module';
-
-@Module({
-  imports: [UploadModule, DatabaseModule, PersonModule, FileModule],
-=======
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FileProcessingModule } from './file-processing/file-processing.module';
+import { TestController } from './api-key/api-key.controller';
+import { TestService } from './api-key/api-key.service';
 
 @Module({
   imports: [
@@ -30,8 +21,8 @@ import { FileProcessingModule } from './file-processing/file-processing.module';
     }),
     FileProcessingModule,
   ],
->>>>>>> ca5c6480340395f453e704d99ca861096eadaf80
-  controllers: [AppController],
-  providers: [AppService],
+
+  controllers: [AppController, TestController],
+  providers: [AppService, TestService],
 })
 export class AppModule {}
