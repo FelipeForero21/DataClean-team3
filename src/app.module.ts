@@ -9,6 +9,8 @@ import { DatabaseModule } from './database/database.module';
 import { PersonModule } from './person/person.module';
 import { FileModule } from './file/file.module';
 
+
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,11 +23,11 @@ import { FileModule } from './file/file.module';
       }),
       inject: [ConfigService],
     }),
-    SomeFeatureModule, 
-    UploadModule, 
-    DatabaseModule, 
-    PersonModule, 
-    FileModule
+    SomeFeatureModule,
+    UploadModule,
+    DatabaseModule,
+    PersonModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
