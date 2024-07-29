@@ -6,7 +6,6 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Person } from 'src/person/dto/person.dto';
 import { PersonService } from 'src/person/person.service';
-import { File } from 'multer';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -27,7 +26,7 @@ export class FileController {
       },
     }),
   }))
-  async uploadFile(@UploadedFile() file: File, @Res() res: Response) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
     const csv = this.fileService.getFileFromFileName(file.filename);
     const content = this.fileService.extractContentToString(csv);
     const parsedCsv = this.fileService.parseCsvContent(content);
