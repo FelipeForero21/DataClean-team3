@@ -2,12 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SomeFeatureService {
-  private data = [
-    // Ejemplo de datos
-    { id: 1, name: 'John Doe', age: 25 },
-    { id: 2, name: 'Jane Smith', age: 30 },
-    { id: 3, name: 'Mike Johnson', age: 20 },
-  ];
+  private data = [];
 
   getData(): any[] {
     return this.data;
