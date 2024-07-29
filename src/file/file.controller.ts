@@ -8,7 +8,9 @@ import { Person } from 'src/person/dto/person.dto';
 import { PersonService } from 'src/person/person.service';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('file')
 @Controller('file')
 export class FileController {
   constructor(
@@ -26,23 +28,36 @@ export class FileController {
       },
     }),
   }))
-  async uploadFile(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
-    const csv = this.fileService.getFileFromFileName(file.filename);
-    const content = this.fileService.extractContentToString(csv);
-    const parsedCsv = this.fileService.parseCsvContent(content);
+  @ApiOperation({ summary: 'Upload a file and process it' })
+  @ApiResponse({ status: 201, description: 'File processed and PDF generated' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File, 
+    @Res() res: Response
+  ) {
+    try {
+      const csv = this.fileService.getFileFromFileName(file.filename);
+      const content = this.fileService.extractContentToString(csv);
+      const parsedCsv = this.fileService.parseCsvContent(content);
 
-    parsedCsv.map((item: Person) => {
-      this.personService.save(item);
-    });
+      parsedCsv.map((item: Person) => {
+        this.personService.save(item);
+      });
 
-    const pdfBuffer = await this.fileService.generatePdf(parsedCsv);
+      const pdfBuffer = await this.fileService.generatePdf(parsedCsv);
 
-    const pdfPath = join(__dirname, '../../uploads', `${file.filename}.pdf`);
-    writeFileSync(pdfPath, pdfBuffer);
+      const pdfPath = join(__dirname, '../../uploads', `${file.filename}.pdf`);
+      writeFileSync(pdfPath, pdfBuffer);
 
-    res.json({
-      message: 'File processed and PDF generated',
-      pdfPath: pdfPath.replace(__dirname, ''),
-    });
+      res.status(201).json({
+        message: 'File processed and PDF generated',
+        pdfPath: pdfPath.replace(__dirname, ''),
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: 'Error processing file',
+        error: error.message,
+      });
+    }
   }
 }

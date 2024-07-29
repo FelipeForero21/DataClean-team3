@@ -9,7 +9,6 @@ describe('PersonController', () => {
       controllers: [PersonController],
     }).compile();
 
-    controller = module.get<PersonController>(PersonController);
   });
 
   it('should be defined', () => {
