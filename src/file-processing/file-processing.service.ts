@@ -8,7 +8,17 @@ export class FileProcessingService {
     return { message: 'File uploaded successfully' };
   }
 
-  processFile(processFileDto: ProcessFileDto) {
-    return { message: 'File processed successfully' };
+  processFile(processFileDto: ProcessFileDto, data: any[]) {
+    if (processFileDto.removeDuplicates) {
+      data = this.removeDuplicates(data);
+    }
+
+    return { message: 'File processed successfully', data };
+  }
+
+  private removeDuplicates(data: any[]): any[] {
+    const uniqueData = Array.from(new Set(data.map(item => item.id)))
+      .map(id => data.find(item => item.id === id));
+    return uniqueData;
   }
 }
